@@ -49,10 +49,11 @@ while 1:
 		speed[0] = -speed[0]
 
 	# Enemy paddle movement
-	difference = ballrect.center[1] - pdl2rect.center[1]
-	if difference != 0:
-		pdl2rect.move(0, difference / math.fabs(difference))
+	difference = [0, ballrect.center[1] - pdl2rect.center[1]]
+	if difference[1] != 0:
+		pdl2rect = pdl2rect.move(difference)
 
+	# Draw everything
 	screen.fill(black)
 	screen.blit(ball, ballrect)
 	screen.blit(paddle1, pdl1rect)
