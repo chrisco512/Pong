@@ -26,22 +26,35 @@ def EnemyScore(ballrect):
 
 def YouScore(ballrect):
 	print "You scored."
-	ballrect = ballrect.move(width/2 * -1, 0)
+	ballrect.center = [ width/2, height/2 ]
+direction = 0
+
+def movePaddle( pdl1rect, direction ):
+	print pdl1rect, direction
+	pdl1rect = pdl1rect.move( 0, direction * 10 )
+	return pdl1rect
 
 
 while 1:
 	for event in pygame.event.get():
 		if event.type == pygame.QUIT: sys.exit()
-
+		elif event.type == pygame.KEYDOWN:
+			if event.key == pygame.K_UP:
+				pdl1rect = movePaddle( pdl1rect, -1 )
+			if event.key == pygame.K_DOWN:
+				pdl1rect = movePaddle( pdl1rect, 1 )
 	ballrect = ballrect.move(speed)
+	position = [ ballrect.left, ballrect.top ]
 
+	
+	
 	# Someone got a point
 	if ballrect.left < 0:
 		EnemyScore(ballrect)
 	if ballrect.right > width:
 		YouScore(ballrect)
 
-	# Ball colliding with top or bottom
+	# Ball colliding with top or bot,tom
 	if ballrect.top < 0 or ballrect.bottom > height:
 		speed[1] = -speed[1]
 
