@@ -22,18 +22,18 @@ pdl2rect = pdl2rect.move(width - pdl2rect.width,0)
 
 def EnemyScore(ballrect):
 	print "He scored."
-	ballrect = ballrect.move(width/2, 0)
+	ballrect.center = [width/2, height/2]
 
 def YouScore(ballrect):
 	print "You scored."
 	ballrect.center = [ width/2, height/2 ]
+
 direction = 0
 
 def movePaddle( pdl1rect, direction ):
 	print pdl1rect, direction
 	pdl1rect = pdl1rect.move( 0, direction * 10 )
 	return pdl1rect
-
 
 while 1:
 	for event in pygame.event.get():
@@ -62,11 +62,12 @@ while 1:
 	if pdl1rect.colliderect(ballrect) or pdl2rect.colliderect(ballrect):
 		speed[0] = -speed[0]
 
-	#Enemy paddle movement
-	difference = pdl2rect.top - pdl2rect.height/2 -  ballrect.top
-	if difference != 0:
-		pdl2rect.move(0, difference / math.fabs(difference))
+	# Enemy paddle movement
+	difference = [0, ballrect.center[1] - pdl2rect.center[1]]
+	if difference[1] != 0:
+		pdl2rect = pdl2rect.move(difference)
 
+	# Draw everything
 	screen.fill(black)
 	screen.blit(ball, ballrect)
 	screen.blit(paddle1, pdl1rect)
